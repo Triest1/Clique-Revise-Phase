@@ -58,7 +58,7 @@ const About = () => {
 
   const teamMembers = [
     {
-      name: 'Hon. Ingrid Joy ',
+      name: 'Hon. Ingrid Joy Scalercio',
       position: 'Barangay Captain',
       image: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
       description: 'Leading our community with dedication and vision for over 10 years.'
