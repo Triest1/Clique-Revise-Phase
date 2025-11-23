@@ -493,9 +493,13 @@ const About = () => {
               Together, we can create a more vibrant, inclusive, and sustainable Barangay Communal for all our residents.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-green-900 px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors duration-200">
-                Get Involved
-              </button>
+            <Link 
+              to="/contact" 
+              className="bg-white text-green-900 px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors duration-200"
+              >
+              Get Involved
+             </Link>
+             
               <Link 
                 to="/contact" 
                 className="border-2 border-white text-white px-8 py-3 rounded-xl font-semibold hover:bg-white hover:text-green-900 transition-colors duration-200"

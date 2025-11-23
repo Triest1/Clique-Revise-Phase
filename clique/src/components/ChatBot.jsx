@@ -5,6 +5,7 @@ import LoadingDots from './LoadingDots'
 import { collection, addDoc, serverTimestamp, doc, updateDoc, onSnapshot, query, where, orderBy, getDocs } from 'firebase/firestore'
 import { db } from '../firebase/config'
 import aiDatasetService from '../services/aiDatasetService'
+import communalLogo from '../assets/communal-logo.png'
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -628,10 +629,12 @@ How else can I help you today?`
             <div className="bg-gradient-to-r from-green-600 to-green-700 text-white p-3 sm:p-4 rounded-t-2xl">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3 flex-1 min-w-0">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                    </svg>
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white rounded-full flex items-center justify-center flex-shrink-0 p-1">
+                    <img 
+                      src={communalLogo} 
+                      alt="Barangay Communal Logo" 
+                      className="w-full h-full object-contain rounded-full"
+                    />
                   </div>
                   <div className="min-w-0 flex-1">
                     <h3 className="font-semibold text-sm sm:text-base truncate">
