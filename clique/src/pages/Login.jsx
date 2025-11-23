@@ -88,7 +88,7 @@ const Login = () => {
   // Show loading state while Firebase initializes
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-green-900 via-green-800 to-green-900 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
           <p className="text-white text-lg">Initializing...</p>
@@ -98,7 +98,7 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-green-900 via-green-800 to-green-900 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Simple Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 left-0 w-full h-full">
@@ -123,7 +123,7 @@ const Login = () => {
             </svg>
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">Admin Portal</h1>
-          <p className="text-blue-100 text-lg">Sign in to access your dashboard</p>
+          <p className="text-green-100 text-lg">Sign in to access your dashboard</p>
           
           {/* Error Message */}
           {error && (
@@ -203,7 +203,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={isLoading || isLocked || !email || !password}
-            className="w-full bg-gradient-to-r from-blue-700 to-blue-800 text-white py-4 px-8 rounded-2xl font-semibold text-lg hover:from-blue-800 hover:to-blue-900 focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl hover:shadow-blue-800/30 border-0"
+            className="w-full bg-gradient-to-r from-green-700 to-green-800 text-white py-4 px-8 rounded-2xl font-semibold text-lg hover:from-green-800 hover:to-green-900 focus:ring-4 focus:ring-green-600 focus:ring-opacity-50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl hover:shadow-green-800/30 border-0"
           >
             {isLoading ? (
               <div className="flex items-center justify-center">

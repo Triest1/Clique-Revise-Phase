@@ -164,7 +164,7 @@ const AdminEventsManagement = () => {
 
   const getCategoryColor = (category) => {
     const colors = {
-      meeting: 'bg-blue-100 text-blue-800',
+      meeting: 'bg-green-100 text-green-800',
       community: 'bg-green-100 text-green-800',
       health: 'bg-red-100 text-red-800',
       youth: 'bg-purple-100 text-purple-800',
@@ -185,7 +185,7 @@ const AdminEventsManagement = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
               <p className="text-gray-600">Loading events...</p>
             </div>
           </div>
@@ -254,13 +254,13 @@ const AdminEventsManagement = () => {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center space-x-4">
               <h2 className="text-lg font-semibold text-gray-900">Event Announcements</h2>
-              <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm font-medium">
+              <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm font-medium">
                 {events.length} Total
               </span>
             </div>
             <button
               onClick={handleAddNew}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-200 flex items-center space-x-2"
+              className="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors duration-200 flex items-center space-x-2"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -279,7 +279,7 @@ const AdminEventsManagement = () => {
               <p className="text-gray-600 mb-4">Create your first event announcement to get started.</p>
               <button
                 onClick={handleAddNew}
-                className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-200"
+                className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors duration-200"
               >
                 Add First Event
               </button>
@@ -341,7 +341,7 @@ const AdminEventsManagement = () => {
                     <div className="flex flex-col sm:flex-row gap-2">
                       <button
                         onClick={() => handleEdit(event)}
-                        className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center space-x-2"
+                        className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors duration-200 flex items-center justify-center space-x-2"
                       >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -409,7 +409,7 @@ const AdminEventsManagement = () => {
                           required
                           value={formData.title}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                           placeholder="Enter event title"
                         />
                       </div>
@@ -422,7 +422,7 @@ const AdminEventsManagement = () => {
                           required
                           value={formData.category}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         >
                           {categories.map(category => (
                             <option key={category.id} value={category.id}>
@@ -444,7 +444,7 @@ const AdminEventsManagement = () => {
                           required
                           value={formData.date}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         />
                       </div>
                       <div>
@@ -457,7 +457,7 @@ const AdminEventsManagement = () => {
                           required
                           value={formData.time}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         />
                       </div>
                     </div>
@@ -517,7 +517,7 @@ const AdminEventsManagement = () => {
                           required
                           value={formData.organizer}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                           placeholder="Enter organizer"
                         />
                       </div>
@@ -530,7 +530,7 @@ const AdminEventsManagement = () => {
                           required
                           value={formData.status}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         >
                           {statusOptions.map(status => (
                             <option key={status.id} value={status.id}>
@@ -552,7 +552,7 @@ const AdminEventsManagement = () => {
                           required
                           value={formData.contactPerson}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                           placeholder="Enter contact person"
                         />
                       </div>
@@ -566,7 +566,7 @@ const AdminEventsManagement = () => {
                           required
                           value={formData.contactPhone}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                           placeholder="Enter contact phone"
                         />
                       </div>
@@ -582,7 +582,7 @@ const AdminEventsManagement = () => {
                           name="image"
                           value={formData.image}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                           placeholder="Enter emoji (e.g., 🏛️)"
                         />
                       </div>
@@ -595,7 +595,7 @@ const AdminEventsManagement = () => {
                           name="banner"
                           value={formData.banner}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                           placeholder="Enter banner image URL (optional)"
                         />
                       </div>

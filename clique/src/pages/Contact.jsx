@@ -1,7 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { doc, onSnapshot } from 'firebase/firestore'
+import { db } from '../firebase/config'
 
 const Contact = () => {
+  const [content, setContent] = useState({
+    contactGetInTouchVisitUs: 'Purok 2, Communal Rd, Buhangin District\nBarangay Communal, Davao City',
+    contactGetInTouchCallUs: '+63 2 8XXX XXXX\nMon-Fri: 8:00 AM - 5:00 PM',
+    contactGetInTouchEmailUs: 'newbarangaycommunal84@gmail.com\nWe\'ll respond within 24 hours',
+    contactFacebook: 'https://www.facebook.com/barangay.communal.5',
+    contactOfficeHours: 'Everyday: 8:00 AM - 5:00 PM'
+  })
+  const previousContentRef = useRef(null)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -10,6 +20,88 @@ const Contact = () => {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+
+  // Load content from Firebase, localStorage, and listen for real-time updates
+  useEffect(() => {
+    const loadContent = () => {
+      // Try localStorage first
+      let storedContent = localStorage.getItem('adminContent')
+      if (!storedContent) {
+        storedContent = sessionStorage.getItem('adminContent')
+      }
+      
+      if (storedContent) {
+        const parsedContent = JSON.parse(storedContent)
+        setContent(prev => ({ ...prev, ...parsedContent }))
+        previousContentRef.current = parsedContent
+        // Content loaded from storage
+      }
+    }
+    loadContent()
+
+    // Set up real-time Firebase listener
+    const contentDoc = doc(db, 'websiteContent', 'main')
+    const unsubscribe = onSnapshot(contentDoc, (doc) => {
+      if (doc.exists()) {
+        const firebaseContent = doc.data()
+        // Remove Firebase-specific fields
+        const { lastUpdated, updatedBy, ...cleanContent } = firebaseContent
+        
+        // Only update if content has actually changed
+        if (JSON.stringify(cleanContent) !== JSON.stringify(previousContentRef.current)) {
+          // Firebase content updated
+          setContent(prev => ({ ...prev, ...cleanContent }))
+          previousContentRef.current = cleanContent
+        }
+      }
+    }, (error) => {
+      console.error('Contact: Firebase listener error:', error)
+    })
+
+    // Listen for content updates from admin panel
+    const handleContentUpdate = (event) => {
+      // Content update event received
+      setContent(prev => ({ ...prev, ...event.detail }))
+      previousContentRef.current = event.detail
+    }
+
+    // Listen for cross-tab messages
+    const handleMessage = (event) => {
+      if (event.data && event.data.type === 'CONTENT_UPDATED') {
+        // Cross-tab message received
+        setContent(prev => ({ ...prev, ...event.data.content }))
+        previousContentRef.current = event.data.content
+      }
+    }
+
+    window.addEventListener('contentUpdated', handleContentUpdate)
+    window.addEventListener('message', handleMessage)
+    
+    // Fallback: Check localStorage every 5 seconds for updates
+    const intervalId = setInterval(() => {
+      let storedContent = localStorage.getItem('adminContent')
+      if (!storedContent) {
+        storedContent = sessionStorage.getItem('adminContent')
+      }
+      
+      if (storedContent) {
+        const parsedContent = JSON.parse(storedContent)
+        // Only update if content has actually changed
+        if (JSON.stringify(parsedContent) !== JSON.stringify(previousContentRef.current)) {
+          // Content changed detected via polling
+          setContent(prev => ({ ...prev, ...parsedContent }))
+          previousContentRef.current = parsedContent
+        }
+      }
+    }, 5000)
+    
+    return () => {
+      unsubscribe() // Clean up Firebase listener
+      window.removeEventListener('contentUpdated', handleContentUpdate)
+      window.removeEventListener('message', handleMessage)
+      clearInterval(intervalId)
+    }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -71,7 +163,7 @@ const Contact = () => {
         )}
       </AnimatePresence>
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+      <div className="bg-gradient-to-r from-green-600 to-green-700 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -82,7 +174,7 @@ const Contact = () => {
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Contact Us
             </h1>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            <p className="text-xl text-green-100 max-w-3xl mx-auto">
               Get in touch with us for any inquiries, concerns, or feedback. We're here to serve our community.
             </p>
           </motion.div>
@@ -108,65 +200,61 @@ const Contact = () => {
               <div className="space-y-8 text-left">
                 {/* Address */}
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">Address</h3>
-                    <p className="text-gray-600">
-                      Purok 2, Communal Rd, <br />
-                      Buhangin District, Davao City, Philippines<br />
-                      Postal Code: 8000
+                    <p className="text-gray-600 whitespace-pre-line">
+                      {content.contactGetInTouchVisitUs || 'Purok 2, Communal Rd,\nBuhangin District, Davao City, Philippines\nPostal Code: 8000'}
                     </p>
                   </div>
                 </div>
 
                 {/* Phone */}
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">Phone</h3>
-                    <p className="text-gray-600">
-                      Kap. Mark: 0910-161-0555<br />
-                      Brgy. Secretary: 0963-167-5748<br />
-                      Chief Security Officer: 0926-424-6389<br />
+                    <p className="text-gray-600 whitespace-pre-line">
+                      {content.contactGetInTouchCallUs || 'Kap. Mark: 0910-161-0555\nBrgy. Secretary: 0963-167-5748\nChief Security Officer: 0926-424-6389'}
                     </p>
                   </div>
                 </div>
 
                 {/* Facebook */}
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
                        <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.988H7.898v-2.89h2.54V9.845c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.772-1.63 1.562v1.875h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
                     </svg>
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">Facebook</h3>
-                    <p className="text-gray-600">
-                      Facebook: https://www.facebook.com/barangay.communal.5<br />
+                    <p className="text-gray-600 whitespace-pre-line">
+                      {content.contactFacebook || 'Facebook: https://www.facebook.com/barangay.communal.5'}
                     </p>
                   </div>
                 </div>
 
                 {/* Email */}
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">Email</h3>
-                    <p className="text-gray-600">
-                      General: newbarangaycommunal84@gmail.com<br />
+                    <p className="text-gray-600 whitespace-pre-line">
+                      {content.contactGetInTouchEmailUs || 'General: newbarangaycommunal84@gmail.com'}
                     </p>
                   </div>
                 </div>
@@ -174,16 +262,15 @@ const Contact = () => {
 
                 {/* Office Hours */}
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">Office Hours</h3>
-                    <p className="text-gray-600">
-                       Everyday: 8:00 AM - 5:00 PM<br />
-                      
+                    <p className="text-gray-600 whitespace-pre-line">
+                      {content.contactOfficeHours || 'Everyday: 8:00 AM - 5:00 PM'}
                     </p>
                   </div>
                 </div>
@@ -214,7 +301,7 @@ const Contact = () => {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors duration-200"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-colors duration-200"
                   placeholder="Enter your full name"
                 />
               </div>
@@ -230,7 +317,7 @@ const Contact = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors duration-200"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-colors duration-200"
                   placeholder="Enter your email address"
                 />
               </div>
@@ -246,7 +333,7 @@ const Contact = () => {
                   required
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors duration-200"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-colors duration-200"
                   placeholder="What is this about?"
                 />
               </div>
@@ -270,7 +357,7 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <div className="flex items-center justify-center">

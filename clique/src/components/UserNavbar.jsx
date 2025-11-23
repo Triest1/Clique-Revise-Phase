@@ -21,7 +21,7 @@ const UserNavbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo and Brand */}
           <Link to="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-green-600 to-green-700 rounded-lg flex items-center justify-center">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
               </svg>
@@ -40,14 +40,14 @@ const UserNavbar = () => {
                 to={link.path}
                 className={`relative px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
                   isActive(link.path)
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                    ? 'text-green-600 bg-green-50'
+                    : 'text-gray-700 hover:text-green-600 hover:bg-green-50'
                 }`}
               >
                 {link.label}
                 {isActive(link.path) && (
                   <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-green-600"
                     layoutId="activeTab"
                     initial={false}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -61,7 +61,7 @@ const UserNavbar = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+              className="text-gray-700 hover:text-green-600 focus:outline-none focus:text-green-600"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isMobileMenuOpen ? (

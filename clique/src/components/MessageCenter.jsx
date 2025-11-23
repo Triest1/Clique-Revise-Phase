@@ -66,7 +66,7 @@ const MessageCenter = () => {
 
   const getMessageTypeColor = (type) => {
     const colors = {
-      'agent_transfer': 'bg-blue-100 text-blue-800',
+      'agent_transfer': 'bg-green-100 text-green-800',
       'notification': 'bg-green-100 text-green-800'
     }
     return colors[type] || 'bg-gray-100 text-gray-800'
@@ -75,7 +75,7 @@ const MessageCenter = () => {
   const getStatusColor = (status) => {
     const colors = {
       'pending': 'bg-yellow-100 text-yellow-800',
-      'read': 'bg-blue-100 text-blue-800',
+      'read': 'bg-green-100 text-green-800',
       'resolved': 'bg-green-100 text-green-800',
       'unread': 'bg-red-100 text-red-800'
     }
@@ -119,7 +119,7 @@ const MessageCenter = () => {
     return (
       <div className="bg-white rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-center h-32">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
           <span className="ml-2 text-gray-600">Loading messages...</span>
         </div>
       </div>
@@ -135,7 +135,7 @@ const MessageCenter = () => {
           <p className="text-gray-600 mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
           >
             Try Again
           </button>
@@ -154,7 +154,7 @@ const MessageCenter = () => {
             <p className="text-gray-600">Manage agent transfers and notifications</p>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-blue-600">{messages.length}</div>
+            <div className="text-2xl font-bold text-green-600">{messages.length}</div>
             <div className="text-sm text-gray-500">Total Messages</div>
           </div>
         </div>
@@ -175,7 +175,7 @@ const MessageCenter = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className={`bg-white rounded-lg shadow-sm p-6 cursor-pointer hover:shadow-md transition-shadow ${
-                !message.read ? 'border-l-4 border-blue-500' : ''
+                !message.read ? 'border-l-4 border-green-500' : ''
               }`}
               onClick={() => handleMessageClick(message)}
             >
@@ -210,7 +210,7 @@ const MessageCenter = () => {
                 </div>
                 
                 {!message.read && (
-                  <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                 )}
               </div>
             </motion.div>

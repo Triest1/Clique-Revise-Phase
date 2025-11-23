@@ -82,14 +82,14 @@ const AdminNavbar = () => {
                 to={link.path}
                 className={`relative px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
                   isActive(link.path)
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                    ? 'text-green-600 bg-green-50'
+                    : 'text-gray-700 hover:text-green-600 hover:bg-green-50'
                 }`}
               >
                 {link.label}
                 {isActive(link.path) && (
                   <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-green-600"
                     layoutId="activeTab"
                     initial={false}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -106,16 +106,16 @@ const AdminNavbar = () => {
             {/* User Status (Desktop) - Only show for authenticated admin/staff */}
             {currentUser && (currentUser.role === 'admin' || currentUser.role === 'staff') && (
               <div className="hidden md:flex items-center space-x-3">
-                <div className="flex items-center space-x-2 px-3 py-2 bg-blue-50 rounded-lg">
-                  <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
+                <div className="flex items-center space-x-2 px-3 py-2 bg-green-50 rounded-lg">
+                  <div className="w-6 h-6 bg-green-600 rounded-full flex items-center justify-center">
                     <span className="text-xs text-white font-semibold">
                       {currentUser.fullName.split(' ').map(n => n[0]).join('').toUpperCase()}
                     </span>
                   </div>
-                  <span className="text-sm font-medium text-blue-700">
+                  <span className="text-sm font-medium text-green-700">
                     {currentUser.fullName}
                   </span>
-                  <span className="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded-full">
+                  <span className="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">
                     {currentUser.role}
                   </span>
                 </div>
@@ -139,7 +139,7 @@ const AdminNavbar = () => {
             <div className="md:hidden">
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+                className="text-gray-700 hover:text-green-600 focus:outline-none focus:text-green-600"
               >
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   {isMobileMenuOpen ? (
@@ -169,8 +169,8 @@ const AdminNavbar = () => {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`block px-3 py-2 text-base font-medium rounded-md ${
                     isActive(link.path)
-                      ? 'text-blue-600 bg-blue-50'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                      ? 'text-green-600 bg-green-50'
+                      : 'text-gray-700 hover:text-green-600 hover:bg-green-50'
                   }`}
                 >
                   {link.label}

@@ -93,7 +93,7 @@ const Events = () => {
 
   const getCategoryColor = (category) => {
     const colors = {
-      meeting: 'bg-blue-100 text-blue-800',
+      meeting: 'bg-green-100 text-green-800',
       community: 'bg-green-100 text-green-800',
       health: 'bg-red-100 text-red-800',
       youth: 'bg-purple-100 text-purple-800',
@@ -123,7 +123,7 @@ const Events = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
               <p className="text-gray-600">Loading events...</p>
             </div>
           </div>
@@ -144,7 +144,7 @@ const Events = () => {
               <p className="text-gray-600 mb-4">{error}</p>
               <button
                 onClick={() => window.location.reload()}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
               >
                 Try Again
               </button>
@@ -199,7 +199,7 @@ const Events = () => {
             <div className="mt-4 sm:mt-0 sm:ml-6">
               <div className="flex flex-col items-end space-y-2">
                 <div className="flex items-center space-x-2 text-sm text-gray-600">
-                  <div className={`w-2 h-2 rounded-full ${isUpdating ? 'bg-blue-500 animate-pulse' : 'bg-green-500'}`}></div>
+                  <div className={`w-2 h-2 rounded-full ${isUpdating ? 'bg-green-500 animate-pulse' : 'bg-green-500'}`}></div>
                   <span>{isUpdating ? 'Updating...' : 'Live Updates'}</span>
                 </div>
                 <p className="text-xs text-gray-500">
@@ -208,8 +208,8 @@ const Events = () => {
               </div>
             </div>
           </div>
-          <div className="bg-blue-50 border-l-4 border-blue-400 p-4 max-w-2xl mx-auto">
-            <div className="flex items-center text-blue-700">
+          <div className="bg-green-50 border-l-4 border-green-400 p-4 max-w-2xl mx-auto">
+            <div className="flex items-center text-green-700">
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -237,7 +237,7 @@ const Events = () => {
                   placeholder="Search events..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all duration-200"
                 />
                 <svg className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -253,7 +253,7 @@ const Events = () => {
                   onClick={() => setSelectedCategory(category.id)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                     selectedCategory === category.id
-                      ? 'bg-blue-600 text-white shadow-lg'
+                      ? 'bg-green-600 text-white shadow-lg'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
@@ -276,7 +276,7 @@ const Events = () => {
               onClick={() => handleViewEvent(event)}
             >
               {/* Event Image */}
-              <div className="h-48 bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center relative">
+              <div className="h-48 bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center relative">
                 {event.banner ? (
                   <img src={event.banner} alt={event.title} className="w-full h-full object-cover" />
                 ) : (
@@ -351,7 +351,7 @@ const Events = () => {
 
                 {/* View Details Button */}
                 <div className="mt-4">
-                  <button className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors duration-200">
+                  <button className="w-full bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors duration-200">
                     View Details
                   </button>
                 </div>
@@ -406,7 +406,7 @@ const Events = () => {
 
                 {/* Event Image */}
                 <div className="mb-6">
-                  <div className="h-64 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg flex items-center justify-center relative overflow-hidden">
+                  <div className="h-64 bg-gradient-to-br from-green-50 to-green-100 rounded-lg flex items-center justify-center relative overflow-hidden">
                     {selectedEvent.banner ? (
                       <img src={selectedEvent.banner} alt={selectedEvent.title} className="w-full h-full object-cover" />
                     ) : (

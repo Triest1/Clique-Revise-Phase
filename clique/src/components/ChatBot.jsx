@@ -591,7 +591,7 @@ How else can I help you today?`
       {/* Floating Chat Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-50 flex items-center justify-center touch-manipulation"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-50 flex items-center justify-center touch-manipulation"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -625,7 +625,7 @@ How else can I help you today?`
             className="fixed bottom-20 right-4 left-4 sm:bottom-24 sm:right-6 sm:left-auto sm:w-96 h-[70vh] sm:h-[500px] max-h-[600px] bg-white rounded-2xl shadow-2xl border border-gray-200 z-40 flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-3 sm:p-4 rounded-t-2xl">
+            <div className="bg-gradient-to-r from-green-600 to-green-700 text-white p-3 sm:p-4 rounded-t-2xl">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3 flex-1 min-w-0">
                   <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
@@ -637,7 +637,7 @@ How else can I help you today?`
                     <h3 className="font-semibold text-sm sm:text-base truncate">
                       {isStaffChat ? 'Live Staff Support' : 'Clique AI Assistant'}
                     </h3>
-                    <p className="text-blue-100 text-xs sm:text-sm truncate">
+                    <p className="text-green-100 text-xs sm:text-sm truncate">
                       {isStaffChat ? 'Chatting with our staff team' : 'Your smart guide to barangay services'}
                     </p>
                   </div>
@@ -656,7 +656,7 @@ How else can I help you today?`
               {isStaffChat && (
                 <div className="mt-2 flex items-center space-x-2">
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="text-xs text-blue-100">Connected to staff</span>
+                  <span className="text-xs text-green-100">Connected to staff</span>
                 </div>
               )}
               {!isStaffChat && (

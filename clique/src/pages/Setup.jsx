@@ -92,7 +92,7 @@ const Setup = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center p-4">
       <div className="max-w-4xl w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -100,9 +100,9 @@ const Setup = () => {
           className="bg-white rounded-2xl shadow-2xl overflow-hidden"
         >
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-8 text-center">
+          <div className="bg-gradient-to-r from-green-600 to-green-700 text-white p-8 text-center">
             <h1 className="text-4xl font-bold mb-2">Barangay Admin Management</h1>
-            <p className="text-blue-100 text-lg">Initial Setup Required</p>
+            <p className="text-green-100 text-lg">Initial Setup Required</p>
           </div>
 
           <div className="p-8">
@@ -113,14 +113,14 @@ const Setup = () => {
                   <div key={step.number} className="flex flex-col items-center">
                     <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold transition-all duration-300 ${
                       currentStep >= step.number 
-                        ? 'bg-blue-600 text-white' 
+                        ? 'bg-green-600 text-white' 
                         : 'bg-gray-200 text-gray-500'
                     }`}>
                       {currentStep > step.number ? '✓' : step.icon}
                     </div>
                     <div className="mt-2 text-center">
                       <p className={`text-sm font-medium ${
-                        currentStep >= step.number ? 'text-blue-600' : 'text-gray-500'
+                        currentStep >= step.number ? 'text-green-600' : 'text-gray-500'
                       }`}>
                         {step.title}
                       </p>
@@ -135,7 +135,7 @@ const Setup = () => {
               {/* Progress Bar */}
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <motion.div
-                  className="bg-blue-600 h-2 rounded-full"
+                  className="bg-green-600 h-2 rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${(currentStep / 3) * 100}%` }}
                   transition={{ duration: 0.5 }}
@@ -159,11 +159,11 @@ const Setup = () => {
                   </p>
                 </div>
 
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-                  <h3 className="text-lg font-semibold text-blue-900 mb-3">
+                <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-6">
+                  <h3 className="text-lg font-semibold text-green-900 mb-3">
                     What will be created:
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-blue-800">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-green-800">
                     <div>
                       <h4 className="font-medium mb-2">Collections:</h4>
                       <ul className="space-y-1">

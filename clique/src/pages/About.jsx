@@ -7,16 +7,31 @@ import { db } from '../firebase/config'
 const About = () => {
   const [content, setContent] = useState({
     aboutText: 'Our barangay is committed to serving the community with excellence and integrity. We provide various services and programs to improve the quality of life for all residents.',
-    contactInfo: 'Barangay Hall\n123 Main Street\nCity, Province 1234\nPhone: (02) 123-4567\nEmail: info@barangay.gov.ph'
+    contactInfo: 'Barangay Hall\n123 Main Street\nCity, Province 1234\nPhone: (02) 123-4567\nEmail: info@barangay.gov.ph',
+    aboutOurBarangay: 'Our barangay is committed to serving the community with excellence and integrity. We provide various services and programs to improve the quality of life for all residents.',
+    ourVision: 'To be a model barangay that exemplifies excellence in local governance, community development, and citizen participation, creating a vibrant, inclusive, and sustainable community for all residents.',
+    byTheNumbersResidents: '15,000+',
+    byTheNumbersYearsOfService: '25+',
+    byTheNumbersCommunityPrograms: '50+',
+    byTheNumbersCommitment: '100%',
+    getInTouchVisitUs: 'Purok 2, Communal Rd, Buhangin District\nBarangay Communal, Davao City',
+    getInTouchCallUs: '+63 2 8XXX XXXX\nMon-Fri: 8:00 AM - 5:00 PM',
+    getInTouchEmailUs: 'newbarangaycommunal84@gmail.com\nWe\'ll respond within 24 hours'
   })
 
   // Load content from Firebase and listen for real-time updates
   useEffect(() => {
     const loadContent = () => {
-      const storedContent = localStorage.getItem('adminContent')
+      // Try localStorage first
+      let storedContent = localStorage.getItem('adminContent')
+      if (!storedContent) {
+        storedContent = sessionStorage.getItem('adminContent')
+      }
+      
       if (storedContent) {
-        setContent(JSON.parse(storedContent))
-        // Content loaded from localStorage
+        const parsedContent = JSON.parse(storedContent)
+        setContent(prev => ({ ...prev, ...parsedContent }))
+        // Content loaded from storage
       }
     }
     loadContent()
@@ -30,7 +45,7 @@ const About = () => {
         const { lastUpdated, updatedBy, ...cleanContent } = firebaseContent
         
         // Firebase content updated
-        setContent(cleanContent)
+        setContent(prev => ({ ...prev, ...cleanContent }))
       }
     }, (error) => {
       console.error('About: Firebase listener error:', error)
@@ -39,23 +54,48 @@ const About = () => {
     // Listen for content updates from admin panel
     const handleContentUpdate = (event) => {
       // Content update event received
-      setContent(event.detail)
+      setContent(prev => ({ ...prev, ...event.detail }))
+    }
+
+    // Listen for cross-tab messages
+    const handleMessage = (event) => {
+      if (event.data && event.data.type === 'CONTENT_UPDATED') {
+        setContent(prev => ({ ...prev, ...event.data.content }))
+      }
     }
 
     window.addEventListener('contentUpdated', handleContentUpdate)
+    window.addEventListener('message', handleMessage)
+    
+    // Fallback: Check localStorage every 5 seconds for updates
+    const intervalId = setInterval(() => {
+      let storedContent = localStorage.getItem('adminContent')
+      if (!storedContent) {
+        storedContent = sessionStorage.getItem('adminContent')
+      }
+      
+      if (storedContent) {
+        const parsedContent = JSON.parse(storedContent)
+        setContent(prev => ({ ...prev, ...parsedContent }))
+      }
+    }, 5000)
     
     return () => {
       unsubscribe() // Clean up Firebase listener
       window.removeEventListener('contentUpdated', handleContentUpdate)
+      window.removeEventListener('message', handleMessage)
+      clearInterval(intervalId)
     }
   }, [])
+  // Get stats from individual content fields
   const stats = [
-    { number: '15,000+', label: 'Residents' },
-    { number: '25+', label: 'Years of Service' },
-    { number: '50+', label: 'Community Programs' },
-    { number: '100%', label: 'Commitment' }
+    { number: content.byTheNumbersResidents || '15,000+', label: 'Residents' },
+    { number: content.byTheNumbersYearsOfService || '25+', label: 'Years of Service' },
+    { number: content.byTheNumbersCommunityPrograms || '50+', label: 'Community Programs' },
+    { number: content.byTheNumbersCommitment || '100%', label: 'Commitment' }
   ]
 
+  // Keep the hardcoded team members for now (as per user's request to remove from content management)
   const teamMembers = [
     {
       name: 'Hon. Ingrid Joy Scalercio',
@@ -71,7 +111,7 @@ const About = () => {
     },
     {
       name: 'More+',
-      /*position: 'Barangay Councilor',*/
+      position: '',
       image: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
       description: 'You can check our FB page for more information.'
     }
@@ -103,7 +143,7 @@ const About = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white py-20">
+      <section className="bg-gradient-to-r from-green-900 via-green-800 to-green-900 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -113,12 +153,12 @@ const About = () => {
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
               About Barangay Communal
             </h1>
-            <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto mb-8">
+            <p className="text-xl md:text-2xl text-green-100 max-w-3xl mx-auto mb-8">
               Serving our community with dedication, integrity, and commitment to excellence.
             </p>
             <Link 
               to="/contact" 
-              className="inline-flex items-center px-8 py-4 bg-white text-blue-900 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              className="inline-flex items-center px-8 py-4 bg-white text-green-900 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -141,7 +181,7 @@ const About = () => {
             >
               <h2 className="text-3xl font-bold text-gray-900 mb-6">About Our Barangay</h2>
               <p className="text-lg text-gray-600 leading-relaxed whitespace-pre-line">
-                {content.aboutText}
+                {content.aboutOurBarangay || content.aboutText}
               </p>
             </motion.div>
             
@@ -152,9 +192,8 @@ const About = () => {
               viewport={{ once: true }}
             >
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Vision</h2>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                To be a model barangay that exemplifies excellence in local governance, community development, 
-                and citizen participation, creating a vibrant, inclusive, and sustainable community for all residents.
+              <p className="text-lg text-gray-600 leading-relaxed whitespace-pre-line">
+                {content.ourVision || 'To be a model barangay that exemplifies excellence in local governance, community development, and citizen participation, creating a vibrant, inclusive, and sustainable community for all residents.'}
               </p>
             </motion.div>
           </div>
@@ -185,7 +224,7 @@ const About = () => {
                 viewport={{ once: true }}
                 className="text-center"
               >
-                <div className="text-4xl md:text-5xl font-bold text-blue-600 mb-2">{stat.number}</div>
+                <div className="text-4xl md:text-5xl font-bold text-green-600 mb-2">{stat.number}</div>
                 <div className="text-gray-600 font-medium">{stat.label}</div>
               </motion.div>
             ))}
@@ -256,7 +295,7 @@ const About = () => {
                   className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
                 />
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">{member.name}</h3>
-                <p className="text-blue-600 font-medium mb-3">{member.position}</p>
+                <p className="text-green-600 font-medium mb-3">{member.position}</p>
                 <p className="text-gray-600 leading-relaxed">{member.description}</p>
               </motion.div>
             ))}
@@ -277,28 +316,28 @@ const About = () => {
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Our History</h2>
               <div className="space-y-4 text-gray-600">
                 <div className="flex items-start space-x-4">
-                  <div className="w-3 h-3 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="w-3 h-3 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
                   <div>
                     <p className="font-semibold text-gray-900">1998</p>
                     <p>Barangay Communal temp was officially established as a separate administrative unit.</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <div className="w-3 h-3 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="w-3 h-3 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
                   <div>
                     <p className="font-semibold text-gray-900">2005</p>
                     <p>Construction of the first barangay hall and community center.</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <div className="w-3 h-3 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="w-3 h-3 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
                   <div>
                     <p className="font-semibold text-gray-900">2015</p>
                     <p>Launch of comprehensive community development programs.</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <div className="w-3 h-3 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="w-3 h-3 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
                   <div>
                     <p className="font-semibold text-gray-900">2023</p>
                     <p>Digital transformation initiative and modern governance systems.</p>
@@ -312,7 +351,7 @@ const About = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="bg-gradient-to-br from-blue-100 to-indigo-100 p-8 rounded-2xl"
+              className="bg-gradient-to-br from-green-100 to-green-100 p-8 rounded-2xl"
             >
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Community Achievements</h3>
               <ul className="space-y-3 text-gray-700">
@@ -368,17 +407,19 @@ const About = () => {
               viewport={{ once: true }}
               className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Visit Us</h3>
-              <p className="text-gray-600 mb-4">Purok 2, Communal Rd, Buhangin District<br />Barangay Communal, Davao City</p>
+              <p className="text-gray-600 mb-4 whitespace-pre-line">
+                {content.getInTouchVisitUs || 'Purok 2, Communal Rd, Buhangin District\nBarangay Communal, Davao City'}
+              </p>
               <Link 
                 to="/contact" 
-                className="text-blue-600 hover:text-blue-700 font-medium"
+                className="text-green-600 hover:text-green-700 font-medium"
               >
                 Get Directions →
               </Link>
@@ -391,17 +432,19 @@ const About = () => {
               viewport={{ once: true }}
               className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Call Us</h3>
-              <p className="text-gray-600 mb-4">+63 2 8XXX XXXX<br />Mon-Fri: 8:00 AM - 5:00 PM</p>
+              <p className="text-gray-600 mb-4 whitespace-pre-line">
+                {content.getInTouchCallUs || '+63 2 8XXX XXXX\nMon-Fri: 8:00 AM - 5:00 PM'}
+              </p>
               
               <Link
               to="/contact" 
-                className="text-blue-600 hover:text-blue-700 font-medium"
+                className="text-green-600 hover:text-green-700 font-medium"
               >
                 Call Now →
               </Link>
@@ -414,16 +457,18 @@ const About = () => {
               viewport={{ once: true }}
               className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Email Us</h3>
-              <p className="text-gray-600 mb-4">newbarangaycommunal84@gmail.com<br />We'll respond within 24 hours</p>
+              <p className="text-gray-600 mb-4 whitespace-pre-line">
+                {content.getInTouchEmailUs || 'newbarangaycommunal84@gmail.com\nWe\'ll respond within 24 hours'}
+              </p>
               <Link
               to="/contact"
-                className="text-blue-600 hover:text-blue-700 font-medium"
+                className="text-green-600 hover:text-green-700 font-medium"
               >
                 Send Email →
               </Link>
@@ -433,7 +478,7 @@ const About = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white">
+      <section className="py-20 bg-gradient-to-r from-green-900 via-green-800 to-green-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -444,16 +489,16 @@ const About = () => {
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
               Join Us in Building a Better Community
             </h2>
-            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
               Together, we can create a more vibrant, inclusive, and sustainable Barangay Communal for all our residents.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-blue-900 px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors duration-200">
+              <button className="bg-white text-green-900 px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors duration-200">
                 Get Involved
               </button>
               <Link 
                 to="/contact" 
-                className="border-2 border-white text-white px-8 py-3 rounded-xl font-semibold hover:bg-white hover:text-blue-900 transition-colors duration-200"
+                className="border-2 border-white text-white px-8 py-3 rounded-xl font-semibold hover:bg-white hover:text-green-900 transition-colors duration-200"
               >
                 Contact Us
               </Link>
