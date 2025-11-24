@@ -3,6 +3,13 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { db } from '../firebase/config'
+import image1 from '../assets/image-1.jpg'
+import image2 from '../assets/image-2.jpg'
+import image3 from '../assets/image-3.jpg'
+import image4 from '../assets/image-4.jpg'
+import image5 from '../assets/image-5.jpg'
+import image6 from '../assets/image-6.jpg'
+import image7 from '../assets/image-7.jpg'
 
 const About = () => {
   const [content, setContent] = useState({
@@ -140,6 +147,24 @@ const About = () => {
     }
   ]
 
+  const defaultGalleryImages = [
+    { src: image1, alt: 'Communal Volunteer Emergency Responders' },
+    { src: image2, alt: 'CSWDO Womens Program' },
+    { src: image3, alt: 'Basic Fire Drill (Fire Safety Orientation) and Basic Life Support Training' },
+    { src: image4, alt: 'Basic Fire Drill (Fire Safety Orientation) and Basic Life Support Training' },
+    { src: image5, alt: 'Basic Fire Drill (Fire Safety Orientation) and Basic Life Support Training' },
+    { src: image6, alt: 'Elderly Community Engagement Program' },
+    { src: image7, alt: 'Elderly Community Engagement Program' }
+  ]
+
+  const managedGallery = Array.isArray(content.aboutGallery) ? content.aboutGallery : []
+  const galleryImages = managedGallery.length
+    ? managedGallery.map((item, index) => ({
+        src: item.imageUrl || item.src || defaultGalleryImages[index % defaultGalleryImages.length].src,
+        alt: item.altText || item.alt || defaultGalleryImages[index % defaultGalleryImages.length].alt
+      }))
+    : defaultGalleryImages
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -228,6 +253,48 @@ const About = () => {
                 <div className="text-gray-600 font-medium">{stat.label}</div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Community Highlights Carousel */}
+      <section className="py-20 bg-gradient-to-b from-green-50 via-white to-green-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Moments That Inspire Us</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              A continuous glimpse into the programs and initiatives that shape Barangay Communal.
+            </p>
+          </motion.div>
+
+          <div className="relative overflow-hidden rounded-3xl border border-green-100 bg-white/70 shadow-2xl shadow-green-900/5">
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white via-white/80 to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white via-white/80 to-transparent" />
+            <div className="flex gap-6 animate-marquee py-8" style={{ animationDuration: '60s' }}>
+                 {[...galleryImages, ...galleryImages].map((image, index) => (
+                <div
+                  key={`${image.alt}-${index}`}
+                  className="min-w-[260px] sm:min-w-[320px] flex-shrink-0 rounded-2xl overflow-hidden bg-gray-100 shadow-lg shadow-green-900/10"
+                >
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    loading="lazy"
+                    className="h-56 w-full object-cover"
+                  />
+                  <div className="p-4 bg-gradient-to-r from-green-900 via-green-800 to-green-900 text-white">
+                    <p className="text-sm uppercase tracking-wide text-green-100">Barangay Communal</p>
+                    <p className="text-lg font-semibold">{image.alt}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

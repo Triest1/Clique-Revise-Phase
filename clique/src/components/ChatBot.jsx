@@ -13,7 +13,7 @@ const ChatBot = () => {
     {
       id: 1,
       type: 'bot',
-      content: 'Hello! Welcome to Clique AI Assistant. I\'m here to help you with information about our barangay services, including:\n\n• Barangay Clearance\n• Indigency Certificates\n• Permits\n• Health and Emergency Services\n• Office Hours\n• Event Information\n• Live Chat with Agent\n• And much more!\n\nHow can I assist you today?',
+      content: 'Hello! I am the Commu-Bot. I\'m here to help you with information about our barangay services, including:\n\n• Barangay Clearance\n• Indigency Certificates\n• Permits\n• Health and Emergency Services\n• Office Hours\n• Event Information\n• Live Chat with Agent\n• And much more!\n\nHow can I assist you today?',
       timestamp: new Date()
     }
   ])
@@ -288,7 +288,7 @@ const ChatBot = () => {
   const essentialQueries = {
     'greeting': {
       keywords: ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening', 'greetings', 'howdy'],
-      response: 'Hello! Welcome to Clique AI Assistant. I\'m here to help you with information about our barangay services, including:\n\n• Barangay Clearance\n• Indigency Certificates\n• Permits\n• Health and Emergency Services\n• Office Hours\n• Event Information\n• Live Chat with Agent\n• And much more!\n\nHow can I assist you today?',
+      response: 'Hello! I am the Commu-bot. I\'m here to help you with information about our barangay services, including:\n\n• Barangay Clearance\n• Indigency Certificates\n• Permits\n• Health and Emergency Services\n• Office Hours\n• Event Information\n• Live Chat with Agent\n• And much more!\n\nHow can I assist you today?',
       category: 'greeting'
     },
     'help': {
@@ -638,7 +638,7 @@ How else can I help you today?`
                   </div>
                   <div className="min-w-0 flex-1">
                     <h3 className="font-semibold text-sm sm:text-base truncate">
-                      {isStaffChat ? 'Live Staff Support' : 'Clique AI Assistant'}
+                      {isStaffChat ? 'Live Staff Support' : 'Commu-Bot Assistant'}
                     </h3>
                     <p className="text-green-100 text-xs sm:text-sm truncate">
                       {isStaffChat ? 'Chatting with our staff team' : 'Your smart guide to barangay services'}
